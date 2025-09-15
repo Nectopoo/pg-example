@@ -1,0 +1,1 @@
+alter table client add column create_date timestamptz;

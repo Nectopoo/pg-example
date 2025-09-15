@@ -1,0 +1,30 @@
+smartReplication:
+  etcd:
+    enabled: true
+    endpoints:
+    - https://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt
+  kafka:
+    autoconfiguration: false
+  producer:
+    mainDatasource:
+      host: localhost
+      port: 5432
+      database: main
+      username: postgres
+      password: mysecretpassword
+      maxPoolSize: 10
+      schema: schema1
+    standinDatasource:
+      host: localhost
+      port: 5432
+      database: standin
+      username: postgres
+      password: mysecretpassword
+      maxPoolSize: 10
+      schema: schema1
+    kafkaConnectionString: localhost:9092
+    owner: towner

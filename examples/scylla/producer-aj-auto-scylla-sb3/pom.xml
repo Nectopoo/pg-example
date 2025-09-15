@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.2</version>
+        <relativePath/>
+    </parent>
+    <groupId>test.dev.smart-replication</groupId>
+    <artifactId>producer-aj-auto-scylla-sb3</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <client.version>3.4.7</client.version>
+        <java.version>17</java.version>
+        <maven.compiler.release>17</maven.compiler.release>
+    </properties>
+
+    <dependencies>
+        <!--    Spring Boot Dependencies    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-reactor-netty</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!--    Smart Replication Lib Dependencies    -->
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-core-etcd-support-starter</artifactId>
+            <version>${client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-kafka-config-starter</artifactId>
+            <version>${client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-proxy-scylla</artifactId>
+            <version>${client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-core-ssl-pem</artifactId>
+            <version>${client.version}</version>
+        </dependency>
+
+        <!-- Other dependencies -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

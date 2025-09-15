@@ -1,0 +1,29 @@
+version: '2'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  etcd:
+    image: 'bitnami/etcd:latest'
+    environment:
+#      - ALLOW_NONE_AUTHENTICATION=true
+      - ETCD_ROOT_PASSWORD=root
+      - ETCD_LISTEN_CLIENT_URLS=https://0.0.0.0:2379
+      - ETCD_CLIENT_CERT_AUTH=true
+      - ETCD_DATA_DIR=/bitnami/etcd/data
+      - ETCD_TRUSTED_CA_FILE=/opt/bitnami/etcd/ssl/ca.crt
+      - ETCD_CERT_FILE=/opt/bitnami/etcd/ssl/server.crt
+      - ETCD_KEY_FILE=/opt/bitnami/etcd/ssl/server.key
+    ports:
+      - 2379:2379
+      - 2380:2380
+    networks:
+      - app-tier
+    volumes:
+      - ./data:/bitnami/etcd/data/
+      - ./ssl:/opt/bitnami/etcd/ssl/
+volumes:
+  etcd_data:
+    driver: local

@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  smart-replication-examples-maven-cache:
+    build:
+      context: ../../../
+      network: spomni_network
+      dockerfile: devops/spomni/docker/smart-replication-examples-maven-cache/Dockerfile
+      args:
+        DOCKER_HOST: tcp://10.147.25.53:2375
+        DOCKER_CONFIG: /tmp/spomni-config/docker
+        CORPDEV_LOGIN: ${CORPDEV_LOGIN}
+        CORPDEV_PASSWORD: ${CORPDEV_PASSWORD}
+    image: docker.repo-ci.sfera.inno.local/tsaj-docker-lib/smart-replication/smart-replication-examples-maven-cache:1.8.1uu2

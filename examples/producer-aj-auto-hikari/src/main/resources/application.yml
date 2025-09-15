@@ -1,0 +1,72 @@
+spring:
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/main
+    user: postgres
+    password: mysecretpassword
+    schemas: schema1
+    create-schemas: true
+
+smartReplication:
+  enabled: true
+  producer.enabled: true
+  kafka:
+    autoconfiguration: true
+    bootstrapServers: localhost:9092
+  #    security:
+  #      enable: true
+  #      keyPassword: ${KEY_STORE_PASSWORD}
+  #      keyStoreLocation: /opt/certs/client-keystore.p12
+  #      keyStorePassword: ${KEY_STORE_PASSWORD}
+  #      keyStoreType: PKCS12
+  #      protocol: SSL
+  #      trustStoreLocation: /opt/certs/truststore.p12
+  #      trustStorePassword: ${TRUST_STORE_PASSWORD}
+  #      trustStoreType: PKCS12
+  etcd:
+    enabled: true
+    connectTimeoutMs: 5000
+    endpoints:
+      - https://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt
+  producer:
+    mainDatasource:
+      url: jdbc:postgresql://localhost:5432/main
+      username: postgres
+      password: mysecretpassword
+      maxPoolSize: 20
+      schema: schema1
+    standinDatasource:
+      url: jdbc:postgresql://localhost:5432/standin
+      username: postgres
+      password: mysecretpassword
+      maxPoolSize: 30
+      schema: schema1
+    owner: towner
+    shouldStopReplication: false
+    maxReplicationErrors: 1
+    errorPeriodInSeconds: 200
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure.include: health,prometheus
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+      probes.enabled: true
+    prometheus.enabled: true
+logging:
+  level:
+    test:
+      dev:
+        smartreplication: INFO
+    org:
+      apache:
+        kafka: INFO
+      springframework: INFO

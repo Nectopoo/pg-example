@@ -1,0 +1,14 @@
+smartReplication:
+  kafka:
+    autoconfiguration: false
+  etcd:
+    enabled: true
+    endpoints:
+      - http://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt
+spring:
+  main:
+    web-application-type: none

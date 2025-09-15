@@ -1,0 +1,58 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/standin
+    user: postgres
+    password: mysecretpassword
+    locations: classpath:db/migration
+    schemas: schema1
+    create-schemas: true
+smartReplication:
+  etcd:
+    enabled: true
+    endpoints:
+      - https://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt
+  autoApplier:
+    autoconfiguration: true
+    owner: towner
+    endpoint: standin
+    ordering: REORDERING
+    consumerConcurrency: 3
+    dbPoolMaxSize: 20
+    mainDatasource:
+      url: jdbc:postgresql://localhost:5432/main?currentSchema=schema1
+      username: postgres
+      password: mysecretpassword
+    standinDatasource:
+      url: jdbc:postgresql://localhost:5432/standin?currentSchema=schema1
+      username: postgres
+      password: mysecretpassword
+  kafka:
+    autoconfiguration: true
+    bootstrapServers: localhost:9092
+#    security:
+#      enable: true
+#      protocol: SSL
+#      trustStoreType: PKCS12
+#      trustStoreLocation: /opt/ssl/kafka/kafka.client.truststore.pfx
+#      trustStorePassword: ""
+#      keyStoreType: PKCS12
+#      keyStoreLocation: /opt/ssl/kafka/kafka.client.keystore.pfx
+#      keyStorePassword: ""
+#      keyPassword: ""
+
+logging:
+  level:
+    org.springframework: INFO
+    org.apache.kafka: INFO
+    io:
+      etcd:
+        jetcd: INFO
+    ROOT: INFO

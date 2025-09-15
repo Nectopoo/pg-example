@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  scilla-example:
+    container_name: scylla-example
+    image: 'scylladb/scylla:4.6.10'
+    ports:
+      - 9042:9042
+    networks:
+      - smartrepl-net
+
+  scilla-example-2:
+    container_name: scylla-example-2
+    image: 'scylladb/scylla:4.6.10'
+    ports:
+      - 9043:9042
+    networks:
+      - smartrepl-net
+
+networks:
+  smartrepl-net:

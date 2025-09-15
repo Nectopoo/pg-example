@@ -1,0 +1,112 @@
+using:
+  spring:
+    schedulerFactory: true
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration
+  flyway:
+    enabled: false
+  jpa:
+    open-in-view: false
+
+demo-app:
+  owner: towner
+  endpoint: standin
+  auto-applier: true
+  manual-applier: false
+  db-schema: schema1
+  mainDataSource:
+    url: jdbc:postgresql://localhost:5432/main
+    username: postgres
+    password: mysecretpassword
+  standin-data-source:
+    url: jdbc:postgresql://localhost:5432/standin
+    username: postgres
+    password: mysecretpassword
+  r2dbc-props-main:
+    host: localhost
+    port: 5432
+    database: main
+  r2dbc-props-standin:
+    host: localhost
+    port: 5432
+    database: standin
+  kafka:
+    bootstrapServers: localhost:9092
+    security:
+      enable: false
+      protocol: SSL
+      trustStoreType: PKCS12
+      trustStoreLocation: 'C:\Users\ВТБ\Desktop\papka\kafka.client.truststore.pfx'
+      trustStorePassword: waeL2chu
+      keyStoreType: PKCS12
+      keyStoreLocation: 'C:\Users\ВТБ\Desktop\papka\kafka.client.keystore.pfx'
+      keyStorePassword: waeL2chu
+      keyPassword: waeL2chu
+  compress:
+    minBytesToCompress: 1000000
+    compressType: GZIP
+    minBytesForSplit: 1000000
+    live:
+      timeout:
+        min: 10
+    min:
+      bytes: 10
+  replicationEnabled: true
+  failureHandling:
+    mode: DEFAULT
+    maxReplicationErrors: 0
+    errorPeriodInSeconds: 120
+  changeKeyMode: CHANGE_KEY
+  # Настройки наблюдения (watch) за параметрами changeSource, enableReplicationStatus в ETCD.
+  watcher:
+    # Резервный режим при проблемах watch. Допустимые значения GET | CACHE | CUSTOM.
+    fallbackMode: CACHE
+    # Длительность кэширования для резервного режима GET.
+    cacheExpiredMs: 300
+
+management:
+  health:
+    livenessState.enabled: true
+    readinessState.enabled: true
+    etcd.enabled: true
+    db.enabled: false
+    kafka.enabled: true
+    version:
+      patterns:
+        - ^test\.dev\.demo\.business\.application.*$
+      classes:
+        - org.springframework.boot.SpringApplication
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web.exposure.include: health,prometheus,refresh,refresh-bus,loggers
+  endpoint:
+    health:
+      enabled: true
+      group:
+        readiness:
+          include:
+            - dataSourceHealthIndicatorA
+        liveness:
+          include:
+            - dataSourceHealthIndicatorA
+      probes.enabled: true
+      show-details: always
+    prometheus.enabled: true
+
+smartReplication:
+  enabled: true
+  kafka:
+    autoconfiguration: false
+  etcd:
+    enabled: true
+    endpoints:
+      - https://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt

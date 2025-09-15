@@ -1,0 +1,43 @@
+smartReplication:
+  etcd:
+    enabled: true
+    connectTimeoutMs: 5000
+    endpoints:
+      - https://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt
+  mainScylla:
+    host: localhost
+    port: 9042
+    datacenter: datacenter1
+    keyspace: baeldung
+  standInScylla:
+    host: localhost
+    port: 9043
+    datacenter: datacenter1
+    keyspace: baeldung
+  scyllaKeyspaces:
+    - baeldung
+    - ks1
+  producer:
+    enabled: true
+  kafka:
+    autoconfiguration: true
+    bootstrapServers: localhost:9092
+  #    security:
+  #      enable: true
+  #      keyPassword: ${KEY_STORE_PASSWORD}
+  #      keyStoreLocation: /opt/certs/client-keystore.p12
+  #      keyStorePassword: ${KEY_STORE_PASSWORD}
+  #      keyStoreType: PKCS12
+  #      protocol: SSL
+  #      trustStoreLocation: /opt/certs/truststore.p12
+  #      trustStorePassword: ${TRUST_STORE_PASSWORD}
+  #      trustStoreType: PKCS12
+  serviceCode: scyllaowner
+  shouldStopReplication: false
+  replicationEnabled: true
+  maxReplicationErrors: 0
+  errorPeriodInSeconds: 120

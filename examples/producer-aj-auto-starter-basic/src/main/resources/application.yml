@@ -1,0 +1,56 @@
+spring:
+  flyway:
+    enabled: false
+    url: jdbc:postgresql://localhost:5432/main
+    user: postgres
+    password: mysecretpassword
+    locations: classpath:db/migration
+    schemas: schema1
+    create-schemas: true
+  main:
+    allow-bean-definition-overriding: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+# Настройки подключения к ПЖ
+smart-replication:
+  kafka:
+    autoconfiguration: true
+    bootstrap-servers: localhost:9092
+  etcd:
+    enabled: true
+    connectTimeoutMs: 5000
+    endpoints:
+      - https://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt
+  producer:
+    enabled: true
+    service-name: towner
+    main-datasource:
+      url: jdbc:postgresql://localhost:5432/main?currentSchema=schema1
+      username: postgres
+      password: mysecretpassword
+      type: com.zaxxer.hikari.HikariDataSource
+      hikari:
+        minimumIdle: 5
+        maximumPoolSize: 20
+        idleTimeout: 60000
+        connectionTimeout: 30000
+    stand-in-datasource:
+      url: jdbc:postgresql://localhost:5432/standin?currentSchema=schema1
+      username: postgres
+      password: mysecretpassword
+      type: com.zaxxer.hikari.HikariDataSource
+      hikari:
+        minimumIdle: 5
+        maximumPoolSize: 20
+        idleTimeout: 60000
+        connectionTimeout: 30000
+    orm: jpa
+    jpa-settings:
+      package-to-scan: test.dev.smartreplication.example
+      properties:
+        show-sql: true

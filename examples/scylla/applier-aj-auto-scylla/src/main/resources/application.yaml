@@ -1,0 +1,45 @@
+smart-replication:
+  test:
+    autoconfiguration: false
+  services:
+    autoconfiguration: false
+  auto-applier:
+    autoconfiguration: true
+    serviceCode: scyllaowner
+    endpoint: standin
+    ordering: REORDERING
+    consumerConcurrency: 10
+    dbPoolMaxSize: 20
+    mainScylla:
+      host: localhost
+      port: 9042
+      datacenter: datacenter1
+    standInScylla:
+      host: localhost
+      port: 9043
+      datacenter: datacenter1
+    scyllaKeyspaces:
+      - baeldung
+      - ks1
+  kafka:
+    autoconfiguration: true
+    bootstrapServers: localhost:9092
+#    security:
+#      enable: true
+#      keyPassword: ${KEY_STORE_PASSWORD}
+#      keyStoreLocation: /opt/certs/client-keystore.p12
+#      keyStorePassword: ${KEY_STORE_PASSWORD}
+#      keyStoreType: PKCS12
+#      protocol: SSL
+#      trustStoreLocation: /opt/certs/truststore.p12
+#      trustStorePassword: ${TRUST_STORE_PASSWORD}
+#      trustStoreType: PKCS12
+  etcd:
+    enabled: true
+    connectTimeoutMs: 5000
+    endpoints:
+      - https://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt

@@ -1,0 +1,26 @@
+spring:
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgres
+    password: mysecretpassword
+    locations: classpath:db/migration
+  main:
+    web-application-type: none
+smartReplication:
+  etcd:
+    enabled: true
+    endpoints:
+      - http://localhost:2379
+    pem:
+      ca-cert-path: etcd-tls-docker/client-certs/ca.crt
+      private-key-path: etcd-tls-docker/client-certs/client.key
+      cert-chain-path: etcd-tls-docker/client-certs/client.crt
+  kafka:
+    autoconfiguration: false
+  producer:
+    shouldStopReplication: false
+    replicationEnabled: true
+    maxReplicationErrors: 0
+    errorPeriodInSeconds: 120
+    kafkaConnectionString: localhost:9092

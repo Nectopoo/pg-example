@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.2</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <smartreplication.version>3.2.0</smartreplication.version>
+        <spring.boot.version>3.2.2</spring.boot.version>
+        <testcontainers.version>1.16.2</testcontainers.version>
+    </properties>
+
+    <artifactId>demo-business-application</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+        </dependency>
+
+        <!--    Spring Boot Dependencies    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-r2dbc</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+
+        <!-- Metrics -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <!--    Smart Replication Lib Dependencies    -->
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-client-core-r2dbc</artifactId>
+            <version>${smartreplication.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-client-jdbc</artifactId>
+            <version>${smartreplication.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-client-kafka</artifactId>
+            <version>${smartreplication.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-proxy-jdbc</artifactId>
+            <version>${smartreplication.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-core</artifactId>
+            <version>${smartreplication.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-core-etcd-support-starter</artifactId>
+            <version>${smartreplication.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-core-ssl-pem</artifactId>
+            <version>${smartreplication.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-grpc-dto</artifactId>
+            <version>${smartreplication.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>test.dev.smartreplication</groupId>
+            <artifactId>smart-replication-grpc-service</artifactId>
+            <version>${smartreplication.version}</version>
+        </dependency>
+
+        <!-- flyway dependencies -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>10.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>10.15.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <!--    for r2dbc example-->
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-proxy</artifactId>
+            <version>1.1.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>r2dbc-postgresql</artifactId>
+            <version>1.0.4.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.ttddyy</groupId>
+            <artifactId>datasource-proxy</artifactId>
+            <version>1.7</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

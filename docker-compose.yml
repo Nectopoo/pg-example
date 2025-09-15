@@ -1,0 +1,72 @@
+version: '3'
+services:
+
+  etcd:
+    container_name: etcd-example
+    image: 'bitnami/etcd:latest'
+    environment:
+      #      - ALLOW_NONE_AUTHENTICATION=true
+      - ETCD_ROOT_PASSWORD=root
+      - ETCD_LISTEN_CLIENT_URLS=https://0.0.0.0:2379
+      - ETCD_CLIENT_CERT_AUTH=true
+      - ETCD_DATA_DIR=/bitnami/etcd/data
+      - ETCD_TRUSTED_CA_FILE=/opt/bitnami/etcd/ssl/ca.crt
+      - ETCD_CERT_FILE=/opt/bitnami/etcd/ssl/server.crt
+      - ETCD_KEY_FILE=/opt/bitnami/etcd/ssl/server.key
+    ports:
+      - 2379:2379
+      - 2380:2380
+    networks:
+      - smartrepl-net
+    volumes:
+      - ./etcd-tls-docker/data:/bitnami/etcd/data/
+      - ./etcd-tls-docker/ssl:/opt/bitnami/etcd/ssl/
+
+  zookeeper:
+    container_name: zookeeper-example
+    image: eventuateio/eventuate-zookeeper:0.15.0.RELEASE
+    networks:
+      - smartrepl-net
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+
+  kafka:
+    container_name: kafka-example
+    image: eventuateio/eventuate-kafka:0.15.0.RELEASE
+    ports:
+      - 9092:9092
+    networks:
+      - smartrepl-net
+    depends_on:
+      - zookeeper
+    environment:
+      - ADVERTISED_HOST_NAME=localhost
+      - KAFKA_HEAP_OPTS=-Xmx1000m -Xms1000m
+      - KAFKA_LISTENERS=LC://kafka:29092,LX://kafka:9092
+      - KAFKA_ADVERTISED_LISTENERS=LC://kafka:29092,LX://localhost:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=LC:PLAINTEXT,LX:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=LC
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+  postgres:
+    container_name: postgres-example
+    image: bitnami/postgresql:14
+    ports:
+      - 5432:5432
+    networks:
+      - smartrepl-net
+    environment:
+      - POSTGRESQL_PASSWORD=mysecretpassword
+    volumes:
+      - ./dbscripts:/docker-entrypoint-initdb.d
+
+
+networks:
+  smartrepl-net:
+
+volumes:
+  etcd_data:
+    driver: local

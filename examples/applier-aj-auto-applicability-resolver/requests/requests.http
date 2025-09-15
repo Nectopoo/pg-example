@@ -1,0 +1,14 @@
+### Post Country
+POST http://localhost:8080/country?id=2&isStatement=false
+
+### Post Country via STATEMENT
+POST http://localhost:8080/country?id=2&isStatement=true
+
+### Post User
+POST http://localhost:8080/user?id=1&countryId=1
+
+### Put Country
+PUT http://localhost:8080/country?id=1&name=Ru
+
+### Put User
+PUT http://localhost:8080/user?id=1&countryId=1&username=user2
